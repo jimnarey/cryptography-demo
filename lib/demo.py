@@ -3,6 +3,7 @@
 # https://www.geeksforgeeks.org/rsa-digital-signature-scheme-using-python/
 
 import random
+import hashlib
 import lib.low_primes as low_primes
 
 # The Rabin Miller algorithm for checking whether a number is
@@ -153,6 +154,17 @@ def decrypt(encrypted_message, key_unique_element, n):
         char = chr(int_)
         message = "{}{}".format(message, char)
     return message
+
+
+def get_message_digest(message):
+    return hashlib.md5(message.encode('utf-8')).hexdigest()
+
+
+def sign_message(message, key_unique_element, n):
+    message_digest = get_message_digest(message)
+    print('Message: ', message)
+    print('Message digest: ', message_digest)
+    print('Message digest signed with private key: ', encrypt(message_digest, key_unique_element, n))
 
 
 def generate_keys():

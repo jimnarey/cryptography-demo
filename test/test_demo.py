@@ -4,8 +4,6 @@ from unittest.mock import patch
 
 from lib import demo
 
-# tc = unittest.TestCase()
-
 class TestIsPrime(unittest.TestCase):
 
     def test_tiny_primes(self):
@@ -33,10 +31,7 @@ class TestRabinMiller(unittest.TestCase):
         for num in (7873, 7151, 5923, 2477, 1609):
             self.assertTrue(demo.rabin_miller(num))
 
-    # def test_non_primes(self):
-    #     for num in (373646,):
-    #         print(num)
-    #         self.assertFalse(demo.rabin_miller(num))
+    # TODO - efficiently test rabin_miller against non-primes
 
 
 class TestGetGCD(unittest.TestCase):

@@ -135,25 +135,27 @@ def rsa(message, key_unique_element, n):
     return pow(message, key_unique_element, n)
 
 
+# Converts a string into ints, encrypts it and generates a single, output string
 def encrypt(message, key_unique_element, n):
     encrypted_ints = []
     for char in message:
         int_ = ord(char)
         e_int = rsa(int_, key_unique_element, n)
         encrypted_ints.append(e_int)
-    return encrypted_ints
+    return '-'.join([str(val) for val in encrypted_ints])
 
-
-def decrypt(encrypted_ints, key_unique_element, n):
+# Takes an encrypted string (from the encrypt function), turns the constituent string-type numbers
+# into ints, decrypts and builds an output string
+def decrypt(encrypted_message, key_unique_element, n):
     message = ""
-    for e_int in encrypted_ints:
+    for e_int in [int(val) for val in encrypted_message.split('-')]:
         int_ = rsa(e_int, key_unique_element, n)
         char = chr(int_)
         message = "{}{}".format(message, char)
     return message
 
 
-def demo():
+def generate_keys():
     key_size = 8
     p = generate_prime(key_size)
     q = generate_prime(key_size, exclude=p)
@@ -164,17 +166,11 @@ def demo():
     print("Key size: ", key_size, " bits")
     print("Prime A (p): ", p)
     print("Prime B (q): ", q)
-    print("A * B | (n): ", n)
     print("(A-1) * (B-1) | (pn): ", pn)
-    print("List of possible keys where 1<key<pn has {} items".format(str(len(keys))))
-    print("Tried the following possible keys to find one with a reciprocal of pn and e:")
+    print("List of possible keys where 1<key<pn and pn & key are coprime has {} items".format(str(len(keys))))
+    print("Tried the following possible keys to find one with a valid value for d:")
     for i in range(len(tried_keys)):
         print("Key ", i + 1, ": ", tried_keys[i])
-    print("Unique element of public key (e): ", e)
-    print("Unique element of private key (d): ", d)
-    message = "ABCDEFGHIJabcdefghij"
-    print('Message to encrypt: ', message)
-    m_enc = encrypt(message, e, n)
-    print('Encrypted message: ', m_enc)
-    m_dec = decrypt(m_enc, d, n)
-    print('Decrypted message: ', m_dec)
+    print("Unique element of public key 'e'': ", e)
+    print("Unique element of private key 'd': ", d)
+    print("Shared element of public and private keys, p * q 'n': ", n)

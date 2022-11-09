@@ -14,7 +14,7 @@ class TestIsPrime(unittest.TestCase):
 
     def test_zero(self):
         self.assertFalse(demo.is_prime(0))
-        
+
     def test_one(self):
         self.assertFalse(demo.is_prime(1))
 
@@ -49,7 +49,7 @@ class TestGetGCD(unittest.TestCase):
 
 
 #
-# System Tests. There are better tools for this but unittest is 
+# System Tests. There are better tools for this but unittest is
 # built in
 #
 
@@ -61,8 +61,8 @@ class TestRSAEncryptionDecryptionLoop(unittest.TestCase):
         self.q = demo.generate_prime(key_size, exclude=self.p)
         self.n = self.p * self.q
         self.pn = (self.p - 1) * (self.q -1)
-        self.keys = demo.get_keys(self.pn)
-        self.e, self.d, tried_keys = demo.get_e_and_d(self.keys, self.pn)
+        self.keys = demo.get_potential_public_key_parts(self.pn)
+        self.e, self.d, tried_keys = demo.find_valid_key_pair(self.keys, self.pn)
 
     def test_encryption_with_d_decrption_with_e(self):
         for i in range(0, 255):
